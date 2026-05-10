@@ -69,7 +69,7 @@ public class FightUI : MonoBehaviour
     {
         if (!waitingForCommand) return;
         waitingForCommand = false;
-        actionPanel.SetActive(false);
+        // actionPanel.SetActive(false);  ← KAPATMA, hedef seçimi açılacak
         onAbilitySelected?.Invoke(ability);
     }
 

@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: Heal
   m_EditorClassIdentifier: Assembly-CSharp::AbilityData
   abilityName: Heal
-  cooldownTurns: 4
   applyEffects:
   - {fileID: 11400000, guid: c08b59948e7102b4d90c1408a966a438, type: 2}
+  cooldownTurns: 4
+  allowedQTEs: []
+  animationTrigger: Heal
+  targetType: 1

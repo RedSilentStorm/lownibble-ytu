@@ -531,9 +531,11 @@ MonoBehaviour:
   playerSpawnA: {fileID: 578001811}
   playerSpawnB: {fileID: 178316262}
   enemyDatas:
-  - {fileID: 11400000, guid: f6a2c471c022c0a4081ac8051f444e15, type: 2}
-  - {fileID: 11400000, guid: f6a2c471c022c0a4081ac8051f444e15, type: 2}
-  - {fileID: 11400000, guid: b431fce026f7290438abfd7971b18469, type: 2}
+  - {fileID: 11400000, guid: fe4d05a18a316ef41b0e6058c2302ca1, type: 2}
+  - {fileID: 11400000, guid: cf76a7a44be920a41ac3c02155d5fe14, type: 2}
+  - {fileID: 11400000, guid: 911229c7fb36d8e41bda996155923c6c, type: 2}
+  - {fileID: 11400000, guid: 1b1921875bc6cba44846938df454bbdb, type: 2}
+  - {fileID: 11400000, guid: c23f0c8baa115914dae1a6a9caf71688, type: 2}
   enemySpawns:
   - {fileID: 849009205}
   - {fileID: 1972577803}
@@ -677,7 +679,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ReactionWindowManager
   reactionUI: {fileID: 1857394839}
-  windowDuration: 10
+  windowDuration: 2.5
 --- !u!4 &1457574479
 Transform:
   m_ObjectHideFlags: 0
