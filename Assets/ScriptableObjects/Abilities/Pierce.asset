@@ -13,5 +13,10 @@ MonoBehaviour:
   m_Name: Pierce
   m_EditorClassIdentifier: Assembly-CSharp::AbilityData
   abilityName: Pierce
-  baseDamage: 10
-  type: 0
+  applyEffects:
+  - {fileID: 11400000, guid: 78ac5ca0125460c4bb2928898e714dd7, type: 2}
+  - {fileID: 11400000, guid: c7aa3ebf8d6eae14d93d69651b2e1707, type: 2}
+  cooldownTurns: 2
+  allowedQTEs:
+  - type: 0
+    complexity: 0

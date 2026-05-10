@@ -24,6 +24,7 @@ public class FightUI : MonoBehaviour
 
     public void ShowActions(BattleEntity currentEntity, Action<AbilityData> callback)
     {
+        Debug.Log($"ShowActions çağrıldı. Yetenek sayısı: {currentEntity.GetAbilities().Count}, waitingForCommand: {waitingForCommand}");
         if (waitingForCommand) return;
         waitingForCommand = true;
         onAbilitySelected = callback;
@@ -37,9 +38,27 @@ public class FightUI : MonoBehaviour
         foreach (var ability in currentEntity.GetAbilities())
         {
             GameObject newButton = Instantiate(abilityButtonPrefab, buttonContainer);
-            TMP_Text tmpText = newButton.GetComponentInChildren<TMP_Text>();
-            tmpText.text = ability.abilityName;
-            newButton.GetComponent<Button>().onClick.AddListener(() => OnAbilityClicked(ability));
+            TMP_Text buttonText = newButton.GetComponentInChildren<TMP_Text>();
+            Button button = newButton.GetComponent<Button>();
+
+            bool onCooldown = currentEntity.IsOnCooldown(ability);
+            int remaining = currentEntity.GetCooldownRemaining(ability);
+
+            if (onCooldown)
+            {
+                buttonText.text = $"{ability.abilityName} ({remaining})";
+                button.interactable = false; // tıklanamaz
+            }
+            else
+            {
+                buttonText.text = ability.abilityName;
+                button.interactable = true;
+                button.onClick.AddListener(() => OnAbilityClicked(ability));
+            }
+
+            // Görsel olarak gri yapmak için isteğe bağlı
+            button.image.color = onCooldown ? Color.gray : Color.white;
+
             spawnedButtons.Add(newButton);
         }
 
@@ -52,5 +71,33 @@ public class FightUI : MonoBehaviour
         waitingForCommand = false;
         actionPanel.SetActive(false);
         onAbilitySelected?.Invoke(ability);
+    }
+
+    public void ShowTargetSelection(List<BattleEntity> targets, Action<BattleEntity> callback)
+    {
+        if (waitingForCommand) return;
+        waitingForCommand = true;
+
+        // Eski butonları temizle
+        foreach (var btn in spawnedButtons) Destroy(btn);
+        spawnedButtons.Clear();
+
+        foreach (var target in targets)
+        {
+            GameObject newButton = Instantiate(abilityButtonPrefab, buttonContainer);
+            TMP_Text buttonText = newButton.GetComponentInChildren<TMP_Text>();
+            Button button = newButton.GetComponent<Button>();
+            buttonText.text = target.data.characterName;
+            button.onClick.AddListener(() =>
+            {
+                waitingForCommand = false;
+                callback(target);
+                // Panel kapatma (yetenek seçimi açılacak)
+                actionPanel.SetActive(false);
+            });
+            spawnedButtons.Add(newButton);
+        }
+
+        actionPanel.SetActive(true);
     }
 }

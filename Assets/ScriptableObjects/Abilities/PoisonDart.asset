@@ -13,5 +13,9 @@ MonoBehaviour:
   m_Name: PoisonDart
   m_EditorClassIdentifier: Assembly-CSharp::AbilityData
   abilityName: PoisonDart
-  baseDamage: 7
-  type: 2
+  applyEffects:
+  - {fileID: 11400000, guid: 22fe69327ba4cb94398e7927c70a3ff6, type: 2}
+  cooldownTurns: 2
+  allowedQTEs:
+  - type: 0
+    complexity: 2

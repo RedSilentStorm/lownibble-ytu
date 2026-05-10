@@ -18,5 +18,7 @@ MonoBehaviour:
   abilities:
   - {fileID: 11400000, guid: 9884c752fbc80dc4e805004d7a8c4187, type: 2}
   - {fileID: 11400000, guid: b1608e7f154e3504a9c5d2e4b62aa6f5, type: 2}
-  battlePrefab: {fileID: 3122405561719753517, guid: a464819c46cc66c409055eb08ca4054b, type: 3}
+  counterCooldownTurns: 4
+  battlePrefab: {fileID: 7535870694142426258, guid: 56b3cdb6dbc3cf840ae5288621f4e598, type: 3}
   isPlayer: 1
+  canBreakMark: 1

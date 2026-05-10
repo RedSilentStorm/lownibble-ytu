@@ -8,9 +8,9 @@ public class CharacterData : ScriptableObject
     public string characterName;
     public float maxHealth = 100f;
     public float speed = 10f;
-    public List<AbilityData> abilities;   // <<< yeni
-
+    public List<AbilityData> abilities;
+    public int counterCooldownTurns = 4;
     public GameObject battlePrefab;
-    public bool isPlayer; // <<< yeni
-    // ileride: saldırı gücü, yetenek listesi vs.
+    public bool isPlayer;
+    public bool canBreakMark = false;
 }
