@@ -17,3 +17,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0f829818638b13d499aab7199f844ebd, type: 2}
   cooldownTurns: 2
   allowedQTEs: []
+  animationTrigger: Mark

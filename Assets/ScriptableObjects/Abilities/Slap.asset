@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96293cafc14104b4bb0d5581d2802797, type: 3}
+  m_Name: Slap
+  m_EditorClassIdentifier: Assembly-CSharp::AbilityData
+  abilityName: Slap
+  applyEffects:
+  - {fileID: 11400000, guid: 04bc855d8cc9de6438a185104ac4eed3, type: 2}
+  - {fileID: 11400000, guid: 9b19868f3e30d1a4099894b57eae153b, type: 2}
+  cooldownTurns: 3
+  allowedQTEs:
+  - type: 0
+    complexity: 2
+  - type: 2
+    complexity: 0
+  animationTrigger: Slap

@@ -38,4 +38,9 @@ public class TurnManager : MonoBehaviour
         // Bir sonraki sıra
         NextTurn();
     }
+
+    public void RemoveTurnTaker(ITurnTaker taker)
+    {
+        turnQueue.Remove(taker);
+    }
 }

@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9de0a83e1591364469a7981d7a2507e6, type: 3}
+  m_Name: Bera
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterData
+  characterName: Bera
+  maxHealth: 150
+  speed: 15
+  abilities:
+  - {fileID: 11400000, guid: 4db4581278d62cb49ab6077d4f782b25, type: 2}
+  - {fileID: 11400000, guid: b1608e7f154e3504a9c5d2e4b62aa6f5, type: 2}
+  - {fileID: 11400000, guid: d621b9ea44689a0488b1598c4c141ab9, type: 2}
+  - {fileID: 11400000, guid: c39117970bb4bb84fa7343a3cf41f77d, type: 2}
+  - {fileID: 11400000, guid: 278ec3450d4fd7c4e9ce5d53f2d430c1, type: 2}
+  - {fileID: 11400000, guid: 52b379c59183e0d45ac4a1f54cb25ab8, type: 2}
+  counterCooldownTurns: 4
+  battlePrefab: {fileID: 7535870694142426258, guid: 56b3cdb6dbc3cf840ae5288621f4e598, type: 3}
+  isPlayer: 1
+  canBreakMark: 1

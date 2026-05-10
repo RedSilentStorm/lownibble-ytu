@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9de0a83e1591364469a7981d7a2507e6, type: 3}
+  m_Name: Yusef
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterData
+  characterName: Yusef
+  maxHealth: 200
+  speed: 4
+  abilities:
+  - {fileID: 11400000, guid: 9884c752fbc80dc4e805004d7a8c4187, type: 2}
+  - {fileID: 11400000, guid: 6315755dce4d5b54399f4e0108a4472a, type: 2}
+  - {fileID: 11400000, guid: 0a748a6151f627e4a8657d2171401e9d, type: 2}
+  counterCooldownTurns: 4
+  battlePrefab: {fileID: 3385798766218323496, guid: 3dfd7fd8b8001b9448728b17af052b8f, type: 3}
+  isPlayer: 0
+  canBreakMark: 0

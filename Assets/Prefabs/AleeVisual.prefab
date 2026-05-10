@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 861103478047007830}
+  - component: {fileID: 3071312441543284363}
   m_Layer: 0
   m_Name: AleeVisual
   m_TagString: Untagged
@@ -24,14 +25,27 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1661367591687937665}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 545.1, y: 226.2, z: 0}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: -0, w: -0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3598145795220809343}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 270, z: 0}
+--- !u!114 &3071312441543284363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1661367591687937665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 677d23307f0f61044baa913aca7cc9d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BattleEntity
+  data: {fileID: 11400000, guid: 6483ec7a737b2d1438f8782e32c8bc27, type: 2}
 --- !u!1001 &3919706125067272596
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -42,15 +56,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 4e7b4ec13e172974589011c0bda913d5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -122.86609
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4e7b4ec13e172974589011c0bda913d5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -226.20001
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4e7b4ec13e172974589011c0bda913d5, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -402.3599
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4e7b4ec13e172974589011c0bda913d5, type: 3}
       propertyPath: m_LocalRotation.w

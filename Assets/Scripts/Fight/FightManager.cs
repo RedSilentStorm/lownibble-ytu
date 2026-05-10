@@ -68,7 +68,7 @@ public class FightManager : MonoBehaviour
     }
     public static void CheckAllEnemiesDefeated()
     {
-        bool allDead = EnemyEntities.TrueForAll(e => e == null || !e.gameObject.activeSelf);
+        bool allDead = EnemyEntities.TrueForAll(e => e == null || e.IsDead);
         if (allDead && EnemyEntities.Count > 0)
         {
             Debug.Log("Tüm düşmanlar yenildi! Comic'e geçiliyor.");

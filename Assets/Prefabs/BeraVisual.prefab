@@ -25,14 +25,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7535870694142426258}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.21243, y: -0, z: -2.98139}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: -0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5239119156018961784}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!114 &4681200554825995447
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 677d23307f0f61044baa913aca7cc9d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BattleEntity
+  data: {fileID: 11400000, guid: 2cf8e838f40d55640a9717812ccd45cf, type: 2}
 --- !u!1001 &5710474580821883539
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -55,7 +56,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 11045e8bd1f2ba743987e1d9fb4d6a1f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.61084986
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 11045e8bd1f2ba743987e1d9fb4d6a1f, type: 3}
       propertyPath: m_LocalPosition.y
@@ -63,7 +64,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 11045e8bd1f2ba743987e1d9fb4d6a1f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.6108501
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 11045e8bd1f2ba743987e1d9fb4d6a1f, type: 3}
       propertyPath: m_LocalRotation.w

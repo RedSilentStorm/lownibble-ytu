@@ -5,8 +5,12 @@ using System.Collections;
 
 public class BattleEntity : MonoBehaviour, ITurnTaker
 {
+    public bool isDead = false;
+    public bool IsDead => isDead;
+
     public CharacterData data;
     private float currentHealth;
+    private Animator animator;
 
     // Health change event: (currentHealth, maxHealth) as ints
     public event Action<int, int> OnHealthChanged;
@@ -20,6 +24,9 @@ public class BattleEntity : MonoBehaviour, ITurnTaker
     {
         data = characterData;
         currentHealth = data.maxHealth;
+        animator = GetComponentInChildren<Animator>();
+        if (animator == null)
+            Debug.LogWarning($"{data.characterName} için Animator bulunamadı!");
         OnHealthChanged?.Invoke(Mathf.CeilToInt(currentHealth), Mathf.CeilToInt(data.maxHealth));
     }
 
@@ -44,22 +51,42 @@ public class BattleEntity : MonoBehaviour, ITurnTaker
         Debug.Log($"{data.characterName} sırası başladı!");
         if (data.isPlayer)
         {
-            // Önce hedef seç
-            List<BattleEntity> targets = FightManager.EnemyEntities.FindAll(e => e.gameObject.activeSelf);
-            if (targets.Count == 0)
+            FightUI.Instance.ShowActions(this, (selectedAbility) =>
             {
-                EndMyTurn(); // düşman kalmadıysa
-                return;
-            }
-            FightUI.Instance.ShowTargetSelection(targets, (selectedTarget) =>
-            {
-                currentTarget = selectedTarget;
-                StartCoroutine(ShowActionsAfterFrame(selectedTarget));
+                List<BattleEntity> targets = GetTargetsForAbility(selectedAbility);
+                if (targets.Count == 0)
+                {
+                    EndMyTurn();
+                    return;
+                }
+                FightUI.Instance.ShowTargetSelection(targets, (selectedTarget) =>
+                {
+                    currentTarget = selectedTarget;
+                    PlayAbilityAnimation(selectedAbility);
+                    ExecutePlayerAction(selectedAbility);
+                });
             });
         }
         else
         {
             StartCoroutine(EnemyTurn());
+        }
+    }
+
+    List<BattleEntity> GetTargetsForAbility(AbilityData ability)
+    {
+        if (ability.targetType == TargetType.Enemy)
+        {
+            return data.isPlayer ?
+                FightManager.EnemyEntities.FindAll(e => e.gameObject.activeSelf) :
+                FightManager.PlayerEntities.FindAll(p => p.gameObject.activeSelf);
+        }
+        else // Ally
+        {
+            List<BattleEntity> allies = data.isPlayer ?
+                new List<BattleEntity>(FightManager.PlayerEntities) :
+                new List<BattleEntity>(FightManager.EnemyEntities);
+            return allies.FindAll(a => a.gameObject.activeSelf);
         }
     }
 
@@ -127,6 +154,7 @@ public class BattleEntity : MonoBehaviour, ITurnTaker
                 expiredCallback: () =>
                 {
                     Debug.Log("QTE kaçırıldı, tam hasar uygulanıyor.");
+                    PlayAbilityAnimation(enemyAbility);
                     ApplyAbilityToTarget(enemyAbility, target);
                     EndMyTurn();
                 }
@@ -135,11 +163,19 @@ public class BattleEntity : MonoBehaviour, ITurnTaker
         }
         else
         {
+            PlayAbilityAnimation(enemyAbility);
             // Normal saldırı (QTE yok)
             yield return new WaitForSeconds(0.3f);
             ApplyAbilityToTarget(enemyAbility, target);
             EndMyTurn();
         }
+    }
+
+    IEnumerator DelayedDamage(AbilityData ability, BattleEntity target)
+    {
+        yield return new WaitForSeconds(0.5f); // animasyonun hasar anına göre ayarla
+        ApplyAbilityToTarget(ability, target);
+        EndMyTurn();
     }
 
     private void ExecutePlayerAction(AbilityData ability)
@@ -225,9 +261,10 @@ public class BattleEntity : MonoBehaviour, ITurnTaker
 
     public void ProcessEffects()
     {
+        List<ActiveStatusEffect> effectsCopy = new List<ActiveStatusEffect>(activeEffects);
         List<ActiveStatusEffect> expired = new List<ActiveStatusEffect>();
 
-        foreach (var active in activeEffects)
+        foreach (var active in effectsCopy)
         {
             switch (active.data.type)
             {
@@ -258,7 +295,10 @@ public class BattleEntity : MonoBehaviour, ITurnTaker
 
     public void TakeDamage(float amount)
     {
+        if (!gameObject.activeSelf) return;
         Debug.Log($"{data.characterName} üzerindeki tüm efektler:");
+        if (animator != null)
+            animator.SetTrigger("Hurt");
         foreach (var effect in activeEffects)
         {
             Debug.Log($" - {effect.data.effectName} (Kalan tur: {effect.remainingTurns})");
@@ -296,6 +336,11 @@ public class BattleEntity : MonoBehaviour, ITurnTaker
 
         if (currentHealth <= 0)
         {
+            if (animator != null)
+                animator.SetTrigger("Death");
+
+            // Hemen yok etme, ölüm animasyonunun oynaması için süre tanı
+            Die();
             Debug.Log($"{data.characterName} öldü!");
             gameObject.SetActive(false);
             OnHealthChanged?.Invoke(0, Mathf.CeilToInt(data.maxHealth));
@@ -304,6 +349,28 @@ public class BattleEntity : MonoBehaviour, ITurnTaker
                 FightManager.CheckAllEnemiesDefeated();
             }
         }
+    }
+
+    void Die()
+    {
+        if (isDead) return;
+        isDead = true;
+
+        if (animator != null)
+            animator.SetTrigger("Death");
+
+        StartCoroutine(DisableAfterDeath());
+    }
+
+    IEnumerator DisableAfterDeath()
+    {
+        yield return new WaitForSeconds(1.5f); // death animasyonunun süresi
+        this.enabled = false;
+        // İsteğe bağlı: Collider'ı kapat
+        // GetComponent<Collider>().enabled = false;
+        TurnManager.Instance.RemoveTurnTaker(this);
+        if (!data.isPlayer)
+            FightManager.CheckAllEnemiesDefeated();
     }
 
     public void ReduceCooldowns()
@@ -411,6 +478,16 @@ public class BattleEntity : MonoBehaviour, ITurnTaker
             // Bonus hasarı hemen uygulayalım (instant damage gibi)
             TakeDamage(bonusDamage);
             Debug.Log($"{attacker.data.characterName}, {data.characterName} üzerindeki Markı patlattı! {bonusDamage} ek hasar!");
+        }
+    }
+    public void PlayAbilityAnimation(AbilityData ability)
+    {
+        if (string.IsNullOrEmpty(ability.animationTrigger)) return;
+
+        Animator anim = GetComponentInChildren<Animator>();
+        if (anim != null)
+        {
+            anim.SetTrigger(ability.animationTrigger);
         }
     }
 }
