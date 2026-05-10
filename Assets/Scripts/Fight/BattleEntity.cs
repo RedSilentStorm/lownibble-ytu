@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Collections;
@@ -6,6 +7,9 @@ public class BattleEntity : MonoBehaviour, ITurnTaker
 {
     public CharacterData data;
     private float currentHealth;
+
+    // Health change event: (currentHealth, maxHealth) as ints
+    public event Action<int, int> OnHealthChanged;
     private BattleEntity currentTarget;
     private int counterCooldownRemaining = 0;
     private List<ActiveStatusEffect> activeEffects = new List<ActiveStatusEffect>();
@@ -16,6 +20,7 @@ public class BattleEntity : MonoBehaviour, ITurnTaker
     {
         data = characterData;
         currentHealth = data.maxHealth;
+        OnHealthChanged?.Invoke(Mathf.CeilToInt(currentHealth), Mathf.CeilToInt(data.maxHealth));
     }
 
     public float GetSpeed() => data != null ? data.speed : 0f;
@@ -80,13 +85,13 @@ public class BattleEntity : MonoBehaviour, ITurnTaker
             yield break;
         }
 
-        AbilityData enemyAbility = available[Random.Range(0, available.Count)];
+        AbilityData enemyAbility = available[UnityEngine.Random.Range(0, available.Count)];
         Debug.Log($"{data.characterName} {enemyAbility.abilityName} kullanıyor!");
 
         // Hedef seç
         List<BattleEntity> players = FightManager.PlayerEntities.FindAll(p => p.gameObject.activeSelf);
         if (players.Count == 0) { EndMyTurn(); yield break; }
-        BattleEntity target = players[Random.Range(0, players.Count)];
+        BattleEntity target = players[UnityEngine.Random.Range(0, players.Count)];
 
         // QTE penceresi açılacak mı?
         if (enemyAbility.allowedQTEs != null && enemyAbility.allowedQTEs.Count > 0)
@@ -287,10 +292,13 @@ public class BattleEntity : MonoBehaviour, ITurnTaker
         currentHealth -= finalDamage;
         Debug.Log($"{data.characterName} {finalDamage} hasar aldı. Can: {currentHealth}/{data.maxHealth}");
 
+        OnHealthChanged?.Invoke(Mathf.CeilToInt(currentHealth), Mathf.CeilToInt(data.maxHealth));
+
         if (currentHealth <= 0)
         {
             Debug.Log($"{data.characterName} öldü!");
             gameObject.SetActive(false);
+            OnHealthChanged?.Invoke(0, Mathf.CeilToInt(data.maxHealth));
             if (!data.isPlayer)
             {
                 FightManager.CheckAllEnemiesDefeated();
@@ -373,6 +381,7 @@ public class BattleEntity : MonoBehaviour, ITurnTaker
     {
         currentHealth = Mathf.Min(currentHealth + amount, data.maxHealth);
         Debug.Log($"{data.characterName} iyileşti: {currentHealth}/{data.maxHealth}");
+        OnHealthChanged?.Invoke(Mathf.CeilToInt(currentHealth), Mathf.CeilToInt(data.maxHealth));
     }
 
     public void EndMyTurn()
