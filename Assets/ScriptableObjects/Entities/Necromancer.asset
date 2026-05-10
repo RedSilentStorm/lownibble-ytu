@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9de0a83e1591364469a7981d7a2507e6, type: 3}
+  m_Name: Necromancer
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterData
+  characterName: Necromancer
+  maxHealth: 50
+  speed: 10
+  abilities:
+  - {fileID: 11400000, guid: 1dc4e7bdc365c044fac1affc63a37e87, type: 2}
+  - {fileID: 11400000, guid: 06fb82fa714f5b445847bc29d611b3a3, type: 2}
+  counterCooldownTurns: 4
+  battlePrefab: {fileID: 8212360441810230509, guid: 8b6bc9331f6dc564ba05599e1540a374, type: 3}
+  isPlayer: 0
+  canBreakMark: 0

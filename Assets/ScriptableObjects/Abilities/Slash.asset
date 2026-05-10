@@ -13,5 +13,14 @@ MonoBehaviour:
   m_Name: Slash
   m_EditorClassIdentifier: Assembly-CSharp::AbilityData
   abilityName: Slash
-  baseDamage: 12
-  type: 0
+  applyEffects:
+  - {fileID: 11400000, guid: bb579b14eae32cf4b8165cbf6675da70, type: 2}
+  cooldownTurns: 0
+  allowedQTEs:
+  - type: 2
+    complexity: 0
+  - type: 1
+    complexity: 1
+  - type: 0
+    complexity: 2
+  animationTrigger: Basic
