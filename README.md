@@ -81,7 +81,7 @@ Assets/
 
 ## Credits
 
-- **Created by:** hamxxa ([itch.io](https://hamxxa.itch.io/ytu-gamejam))
+- **Created by:** hamxxa, RedSilentStorm ([itch.io](https://hamxxa.itch.io/ytu-gamejam))
 - **Event:** Skylab Yıldız Jam 2026 — Yıldız Technical University
 - Made with **Unity 6**.
 - AI tools were used to assist with development, code, and some graphics.
