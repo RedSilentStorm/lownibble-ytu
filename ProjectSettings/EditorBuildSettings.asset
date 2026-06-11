@@ -6,17 +6,17 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Boot.unity
+    guid: aecef9201540d4b40b7cf62be3d15723
+  - enabled: 1
+    path: Assets/Scenes/Fight.unity
+    guid: 911158b726d77e0409f74a3fd721be0d
+  - enabled: 1
     path: Assets/Scenes/MainMenu.unity
     guid: 859582c8dc459a441b48d6f1e4ce8ed7
   - enabled: 1
     path: Assets/Scenes/Comic.unity
     guid: 9ee16a936d68b2745a683bfdd956ffda
-  - enabled: 1
-    path: Assets/Scenes/Fight.unity
-    guid: 911158b726d77e0409f74a3fd721be0d
-  - enabled: 1
-    path: Assets/Scenes/Boot.unity
-    guid: aecef9201540d4b40b7cf62be3d15723
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
