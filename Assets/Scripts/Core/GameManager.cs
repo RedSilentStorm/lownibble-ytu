@@ -6,6 +6,8 @@ public class GameManager : MonoBehaviour
 
     public enum GameState { Boot, Fight, Comic, Transition }
     public GameState currentState = GameState.Boot;
+    // Optional config passed from other systems (e.g. Comic) to customize next Fight scene
+    public string pendingFightConfig = null;
 
     private void Awake()
     {
@@ -21,11 +23,11 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        // Oyun başlar başlamaz Fight sahnesini yükle
-        SceneLoader.Instance.LoadAdditiveScene("Fight", () =>
+        // Oyun Comic ile başlar; comic bitince ComicManager Fight'a geçirir
+        SceneLoader.Instance.LoadAdditiveScene("Comic", () =>
         {
-            currentState = GameState.Fight;
-            Debug.Log("Fight moduna girildi.");
+            currentState = GameState.Comic;
+            Debug.Log("Comic moduna girildi.");
         });
     }
 
@@ -44,6 +46,14 @@ public class GameManager : MonoBehaviour
         });
     }
 
+    // Overload that accepts an optional config string which will be available
+    // to the Fight scene after it's loaded (see FightManager.ApplyFightConfig).
+    public void SwitchToFight(string config)
+    {
+        pendingFightConfig = config;
+        SwitchToFight();
+    }
+
     public void SwitchToFight()
     {
         if (currentState != GameState.Comic) return;
@@ -55,6 +65,21 @@ public class GameManager : MonoBehaviour
             {
                 currentState = GameState.Fight;
                 Debug.Log("Fight moduna geri dönüldü.");
+
+                // If a pending config was provided before loading, try to apply it.
+                if (!string.IsNullOrEmpty(pendingFightConfig))
+                {
+                    var fm = FindObjectOfType<FightManager>();
+                    if (fm != null)
+                    {
+                        fm.ApplyFightConfig(pendingFightConfig);
+                        pendingFightConfig = null;
+                    }
+                    else
+                    {
+                        Debug.LogWarning("FightManager bulunamadı - pendingFightConfig uygulanamadı.");
+                    }
+                }
             });
         });
     }

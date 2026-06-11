@@ -192,27 +192,40 @@ public class ComicManager : MonoBehaviour
     private void ExecuteNextAction(string nextAction)
     {
         // Sonraki sayfa var mı?
-        if (currentPageIndex + 1 < pagesPrefabs.Length && nextAction == "nextPage")
+        if (nextAction == "nextPage" && currentPageIndex + 1 < pagesPrefabs.Length)
         {
             Debug.Log($"[ComicManager] Sonraki Comic'e geçiliyor...");
             LoadPage(currentPageIndex + 1);
+            return;
         }
-        else if (nextAction == "fightscene")
+
+        // Fight aksiyonu ("Fight", "fightscene" veya "fightscene:config")
+        bool isFightAction = nextAction == "Fight" || nextAction.StartsWith("fightscene");
+
+        // Comic bitti (son sayfa, "end" veya boş aksiyon) ya da Fight istendi -> savaşa geç
+        if (isFightAction || nextAction == "end" || nextAction == "nextPage" || string.IsNullOrEmpty(nextAction))
         {
-            // Fight Scene'e geç
-            Debug.Log($"[ComicManager] Fight Scene yükleniyor: fightscene");
-            UnityEngine.SceneManagement.SceneManager.LoadScene("fightscene");
+            string config = null;
+            var parts = nextAction.Split(':');
+            if (parts.Length > 1) config = parts[1];
+
+            Debug.Log($"[ComicManager] Comic tamamlandı, Fight'a geçiliyor (aksiyon: {nextAction})");
+
+            if (GameManager.Instance != null)
+            {
+                GameManager.Instance.SwitchToFight(config);
+            }
+            else
+            {
+                Debug.LogWarning("[ComicManager] GameManager yok, Fight sahnesi doğrudan yüklenecek.");
+                UnityEngine.SceneManagement.SceneManager.LoadScene("Fight");
+            }
+            return;
         }
-        else if (!string.IsNullOrEmpty(nextAction) && nextAction != "end" && nextAction != "nextPage")
-        {
-            // Özel Scene yükle
-            Debug.Log($"[ComicManager] Scene yükleniyor: {nextAction}");
-            UnityEngine.SceneManagement.SceneManager.LoadScene(nextAction);
-        }
-        else
-        {
-            Debug.Log("[ComicManager] Comic sona erdi!");
-        }
+
+        // Özel Scene yükle
+        Debug.Log($"[ComicManager] Scene yükleniyor: {nextAction}");
+        UnityEngine.SceneManagement.SceneManager.LoadScene(nextAction);
     }
 
     public ComicPage GetCurrentPage() => currentPage;
